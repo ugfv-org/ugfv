@@ -793,6 +793,13 @@ export class NoteCreateService implements OnApplicationShutdown {
 	private async renderNoteOrRenoteActivity(data: Option, note: MiNote) {
 		if (data.localOnly) return null;
 
+		/**
+		 * [add:ugfv] ローカルのパブリックノートはリモートへの配信時にホームに変更する
+		 */
+		if(note.visibility === 'public') {
+			note.visibility = 'home';
+		}
+
 		const content = this.isRenote(data) && !this.isQuote(data)
 			? this.apRendererService.renderAnnounce(data.renote.uri ? data.renote.uri : `${this.config.url}/notes/${data.renote.id}`, note)
 			: this.apRendererService.renderCreate(await this.apRendererService.renderNote(note, false), note);
