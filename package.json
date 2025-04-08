@@ -86,5 +86,9 @@
 		"patchedDependencies": {
 			"re2": "scripts/dependency-patches/re2.patch"
 		}
+	},
+	"volta": {
+		"node": "22.14.0",
+		"pnpm": "10.6.1"
 	}
 }
