@@ -4,6 +4,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
+<<<<<<< HEAD
 	<div v-if="!acceptEro" style="padding: 5rem;">
 		本サーバーは18歳以上の方を対象としたコンテンツを含みます。<br />
 		このコンテンツを閲覧するには、あなたが18歳以上であることを確認する必要があります。<br />
@@ -12,18 +13,22 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</div>
 	<div v-else>
 		<div v-if="instance">
-			<XSetup v-if="instance.requireSetup" />
-			<XEntrance v-else />
+			<XSetup v-if="instance.requireSetup"/>
+			<XEntranceClassic v-else-if="(instance.clientOptions.entrancePageStyle ?? 'classic') === 'classic'"/>
+			<XEntranceSimple v-else/>
 		</div>
 	</div>
+=======
+>>>>>>> 2025.12.2
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import * as Misskey from 'misskey-js';
-import XSetup from './welcome.setup.vue';
-import XEntrance from './welcome.entrance.a.vue';
 import { instanceName } from '@@/js/config.js';
+import XSetup from './welcome.setup.vue';
+import XEntranceClassic from './welcome.entrance.classic.vue';
+import XEntranceSimple from './welcome.entrance.simple.vue';
 import { definePage } from '@/page.js';
 import { fetchInstance } from '@/instance.js';
 
