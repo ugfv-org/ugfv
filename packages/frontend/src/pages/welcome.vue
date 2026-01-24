@@ -4,7 +4,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<<<<<<< HEAD
 	<div v-if="!acceptEro" style="padding: 5rem;">
 		本サーバーは18歳以上の方を対象としたコンテンツを含みます。<br />
 		このコンテンツを閲覧するには、あなたが18歳以上であることを確認する必要があります。<br />
@@ -18,8 +17,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<XEntranceSimple v-else/>
 		</div>
 	</div>
-=======
->>>>>>> 2025.12.2
 </template>
 
 <script lang="ts" setup>
