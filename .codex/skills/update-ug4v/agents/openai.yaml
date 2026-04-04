@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update ug4v"
+  short_description: "ug4vをMisskey最新リリースへ追従し、公開手順をActions運用に揃える"
+  default_prompt: "Use $update-ug4v to merge the latest Misskey release into this ug4v checkout, update the version string, and explain how container publishing should run from GitHub Actions on pushes to main."
