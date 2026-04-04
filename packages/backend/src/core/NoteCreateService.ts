@@ -950,7 +950,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		if (data.localOnly) return null;
 
 		/**
-		 * [add:ugfv] ローカルのパブリックノートはリモートへの配信時にホームに変更する
+		 * [add:ug4v] ローカルのパブリックノートはリモートへの配信時にホームに変更する
 		 */
 		if(note.visibility === 'public') {
 			note.visibility = 'home';
