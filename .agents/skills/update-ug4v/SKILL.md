@@ -1,7 +1,7 @@
 ---
 name: update-ug4v
-description: Update the ug4v repository by checking the latest GitHub release from misskey-dev/misskey, merging that release commit into the local branch, resolving conflicts with preference for local ug4v changes, updating the root package.json version to the Misskey release version plus -ug4v, and documenting how container publishing should run from GitHub Actions on pushes to main.
-Use when Codex is asked to sync ug4v with upstream Misskey releases or prepare the repository for release automation after upstream updates.
+description: Use this skill when asked to update ug4v to the latest upstream Misskey release or prepare ug4v release automation. It fetches misskey-dev/misskey releases, merges the release commit, prefers local ug4v changes during conflicts, updates the root package.json version to <misskey-version>-ug4v, and aligns container publishing guidance with GitHub Actions on pushes to main.
+argument-hint: "<upstream update or release automation request>"
 ---
 
 # Update ug4v
