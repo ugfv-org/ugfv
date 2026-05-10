@@ -97,12 +97,30 @@ export class ActivityPubServerService {
 	 */
 	@bindThis
 	private async packActivity(note: MiNote): Promise<any> {
-		if (isRenote(note) && !isQuote(note)) {
-			const renote = await this.notesRepository.findOneByOrFail({ id: note.renoteId });
-			return this.apRendererService.renderAnnounce(renote.uri ? renote.uri : `${this.config.url}/notes/${renote.id}`, note);
+		const noteForRemoteQuery = this.applyRemoteQueryVisibility(note);
+
+		if (isRenote(noteForRemoteQuery) && !isQuote(noteForRemoteQuery)) {
+			const renote = await this.notesRepository.findOneByOrFail({ id: noteForRemoteQuery.renoteId });
+			return this.apRendererService.renderAnnounce(renote.uri ? renote.uri : `${this.config.url}/notes/${renote.id}`, noteForRemoteQuery);
 		}
 
-		return this.apRendererService.renderCreate(await this.apRendererService.renderNote(note, false), note);
+		return this.apRendererService.renderCreate(await this.apRendererService.renderNote(noteForRemoteQuery, false), noteForRemoteQuery);
+	}
+
+	/**
+	 * [add:ug4v] リモートサーバーからローカルpublicノートを照会された場合も、
+	 * リモートへの配信時と同様にActivityPub上はhome visibilityとして扱う。
+	 */
+	@bindThis
+	private applyRemoteQueryVisibility(note: MiNote): MiNote {
+		if (note.userHost == null && !note.localOnly && note.visibility === 'public') {
+			return {
+				...note,
+				visibility: 'home',
+			};
+		}
+
+		return note;
 	}
 
 	@bindThis
@@ -669,7 +687,7 @@ export class ActivityPubServerService {
 
 			reply.header('Cache-Control', 'public, max-age=180');
 			this.setResponseType(request, reply);
-			return this.apRendererService.addContext(await this.apRendererService.renderNote(note, false));
+			return this.apRendererService.addContext(await this.apRendererService.renderNote(this.applyRemoteQueryVisibility(note), false));
 		});
 
 		// note activity
