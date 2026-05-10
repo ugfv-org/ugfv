@@ -1,0 +1,4 @@
+interface:
+  display_name: "Misskey Implementation"
+  short_description: "Misskey codebase implementation guide"
+  default_prompt: "Use $misskey to implement or modify Misskey features in this repository."
