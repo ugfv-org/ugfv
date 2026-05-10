@@ -99,6 +99,17 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<span style="animation: dev-ticker-blink 2s infinite;">{{ i18n.ts.safeModeEnabled }}</span>&nbsp;
 	<button class="_textButton" style="pointer-events: all;" @click="exitSafeMode">{{ i18n.ts.turnItOff }}</button>
 </div>
+
+<div v-if="!$i && !ageGateAccepted" :class="$style.ageGate">
+	<div :class="$style.ageGatePanel">
+		<p :class="$style.ageGateText">
+			本サーバーは18歳以上の方を対象としたコンテンツを含みます。<br />
+			このコンテンツを閲覧するには、あなたが18歳以上であることを確認する必要があります。<br />
+			あなたが18歳以上であることを確認するには、以下のボタンをクリックしてください。
+		</p>
+		<MkButton primary rounded :class="$style.ageGateButton" @click="ageGateAccepted = true">18歳以上です</MkButton>
+	</div>
+</div>
 </template>
 
 <script lang="ts" setup>
@@ -119,6 +130,7 @@ import { prefer } from '@/preferences.js';
 import { globalEvents } from '@/events.js';
 import { store } from '@/store.js';
 import XNavbar from '@/ui/_common_/navbar.vue';
+import MkButton from '@/components/MkButton.vue';
 
 const XStreamIndicator = defineAsyncComponent(() => import('./stream-indicator.vue'));
 const XWidgets = defineAsyncComponent(() => import('./widgets.vue'));
@@ -129,6 +141,7 @@ const widgetsShowing = defineModel<boolean>('widgetsShowing');
 const dev = _DEV_;
 
 const notifications = ref<Misskey.entities.Notification[]>([]);
+const ageGateAccepted = ref(false);
 
 function onNotification(notification: Misskey.entities.Notification, isClient = false) {
 	if (window.document.visibilityState === 'visible') {
@@ -360,6 +373,44 @@ if ($i) {
 
 .notification {
 	container-type: inline-size;
+}
+
+.ageGate {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483647;
+	display: grid;
+	place-items: center;
+	padding: var(--MI-margin);
+	box-sizing: border-box;
+	overflow: auto;
+	overscroll-behavior: contain;
+	background: color(from var(--MI_THEME-bg) srgb r g b / 0.92);
+}
+
+.ageGatePanel {
+	width: min(100%, 520px);
+	padding: 32px;
+	border-radius: var(--MI-radius);
+	box-sizing: border-box;
+	background: var(--MI_THEME-panel);
+	box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+	text-align: center;
+}
+
+.ageGateText {
+	margin: 0 0 24px;
+	line-height: 1.8;
+}
+
+.ageGateButton {
+	margin: 0 auto;
+}
+
+@media (max-width: 500px) {
+	.ageGatePanel {
+		padding: 24px;
+	}
 }
 </style>
 
