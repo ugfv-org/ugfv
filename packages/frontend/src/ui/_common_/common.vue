@@ -385,7 +385,7 @@ if ($i) {
 	box-sizing: border-box;
 	overflow: auto;
 	overscroll-behavior: contain;
-	background: color(from var(--MI_THEME-bg) srgb r g b / 0.92);
+	background: var(--MI_THEME-bg);
 }
 
 .ageGatePanel {
