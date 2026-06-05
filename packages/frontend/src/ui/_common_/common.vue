@@ -107,7 +107,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 			このコンテンツを閲覧するには、あなたが18歳以上であることを確認する必要があります。<br />
 			あなたが18歳以上であることを確認するには、以下のボタンをクリックしてください。
 		</p>
-		<MkButton primary rounded :class="$style.ageGateButton" @click="ageGateAccepted = true">18歳以上です</MkButton>
+		<button
+			type="button"
+			class="_button"
+			:class="$style.ageGateButton"
+			@click="acceptAgeGate"
+			@touchend.prevent.stop="acceptAgeGate"
+		>
+			18歳以上です
+		</button>
 	</div>
 </div>
 </template>
@@ -130,7 +138,6 @@ import { prefer } from '@/preferences.js';
 import { globalEvents } from '@/events.js';
 import { store } from '@/store.js';
 import XNavbar from '@/ui/_common_/navbar.vue';
-import MkButton from '@/components/MkButton.vue';
 
 const XStreamIndicator = defineAsyncComponent(() => import('./stream-indicator.vue'));
 const XWidgets = defineAsyncComponent(() => import('./widgets.vue'));
@@ -142,6 +149,10 @@ const dev = _DEV_;
 
 const notifications = ref<Misskey.entities.Notification[]>([]);
 const ageGateAccepted = ref(false);
+
+function acceptAgeGate() {
+	ageGateAccepted.value = true;
+}
 
 function onNotification(notification: Misskey.entities.Notification, isClient = false) {
 	if (window.document.visibilityState === 'visible') {
@@ -405,6 +416,24 @@ if ($i) {
 
 .ageGateButton {
 	margin: 0 auto;
+	min-width: 160px;
+	padding: 8px 18px;
+	border-radius: 999px;
+	box-sizing: border-box;
+	font-weight: bold;
+	color: var(--MI_THEME-fgOnAccent);
+	background: var(--MI_THEME-accent);
+	touch-action: manipulation;
+
+	&:hover,
+	&:active {
+		background: hsl(from var(--MI_THEME-accent) h s calc(l + 5));
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--MI_THEME-accent);
+		outline-offset: 3px;
+	}
 }
 
 @media (max-width: 500px) {

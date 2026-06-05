@@ -1,3 +1,15 @@
+## Unreleased
+
+### General
+-
+
+### Client
+- Fix: iPhoneブラウザで未ログイン時の年齢確認ボタンが反応しないことがある問題を修正
+
+### Server
+-
+
+
 ## 2026.5.4
 
 ### General
