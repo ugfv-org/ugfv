@@ -2616,7 +2616,7 @@ declare module '../api.js' {
 
     /**
      * List of following users
-     *
+     * 
      * **Credential required**: *Yes* / **Permission**: *read:following*
      */
     request<E extends 'following/list', P extends Endpoints[E]['req']>(
