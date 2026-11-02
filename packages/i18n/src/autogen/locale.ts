@@ -5222,6 +5222,10 @@ export interface Locale extends ILocale {
      */
     "cannotSelectSensitiveMediaDescription": string;
     /**
+     * 外部に不意に配信される可能性のある画像のため、センシティブ要素を含まない画像を設定してください
+     */
+    "profileImageSensitiveConfirm": string;
+    /**
      * 説明文はありません
      */
     "noDescription": string;

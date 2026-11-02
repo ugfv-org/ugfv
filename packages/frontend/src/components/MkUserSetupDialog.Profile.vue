@@ -39,6 +39,7 @@ import FormSlot from '@/components/form/slot.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import * as os from '@/os.js';
 import { ensureSignin } from '@/i.js';
+import { confirmProfileImage } from '@/utility/confirm-profile-image.js';
 
 const $i = ensureSignin();
 
@@ -86,6 +87,7 @@ async function setAvatar(ev: PointerEvent) {
 	}
 
 	const driveFile = (await os.launchUploader([originalOrCropped], { multiple: false }))[0];
+	if (!await confirmProfileImage(driveFile)) return;
 
 	const i = await os.apiWithDialog('i/update', {
 		avatarId: driveFile.id,

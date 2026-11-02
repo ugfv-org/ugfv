@@ -537,6 +537,16 @@ describe('ユーザー', () => {
 		assert.deepStrictEqual(response2, expected2, inspect(parameters));
 	});
 
+	test.each(['avatarId', 'bannerId'] as const)('センシティブ画像を設定できる(%s)', async (field) => {
+		const file = (await uploadFile(alice)).body!;
+		await successfulApiCall({ endpoint: 'drive/files/update', parameters: { fileId: file.id, isSensitive: true }, user: alice });
+
+		const response = await successfulApiCall({ endpoint: 'i/update', parameters: { [field]: file.id }, user: alice });
+		assert.strictEqual(response[field], file.id);
+		const updatedFile = await successfulApiCall({ endpoint: 'drive/files/show', parameters: { fileId: file.id }, user: alice });
+		assert.strictEqual(updatedFile.isSensitive, true);
+	});
+
 	//#endregion
 	//#region 自分の情報の更新(i/pin, i/unpin)
 

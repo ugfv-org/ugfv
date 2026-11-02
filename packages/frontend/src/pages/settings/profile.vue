@@ -174,6 +174,7 @@ import FormSlot from '@/components/form/slot.vue';
 import FormLink from '@/components/form/link.vue';
 import MkDraggable from '@/components/MkDraggable.vue';
 import { chooseDriveFile } from '@/utility/drive.js';
+import { confirmProfileImage } from '@/utility/confirm-profile-image.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { ensureSignin } from '@/i.js';
@@ -275,13 +276,10 @@ function save() {
 
 function changeAvatar(ev: PointerEvent) {
 	async function done(driveFile: Misskey.entities.DriveFile) {
+		if (!await confirmProfileImage(driveFile)) return;
+
 		const i = await os.apiWithDialog('i/update', {
 			avatarId: driveFile.id,
-		}, undefined, {
-			'71bb5e53-4742-4609-b465-36081e131208': {
-				title: i18n.ts.cannotSelectSensitiveMedia,
-				text: i18n.ts.cannotSelectSensitiveMediaDescription,
-			},
 		}).catch(() => null); // エラーダイアログは apiWithDialog 側で表示済み
 		if (i == null) return;
 
@@ -325,7 +323,7 @@ function changeAvatar(ev: PointerEvent) {
 		text: i18n.ts.fromDrive,
 		icon: 'ti ti-cloud',
 		action: () => {
-			chooseDriveFile({ multiple: false, excludeSensitive: true }).then(files => {
+			chooseDriveFile({ multiple: false }).then(files => {
 				done(files[0]);
 			});
 		},
@@ -354,13 +352,10 @@ function changeAvatar(ev: PointerEvent) {
 
 function changeBanner(ev: PointerEvent) {
 	async function done(driveFile: Misskey.entities.DriveFile) {
+		if (!await confirmProfileImage(driveFile)) return;
+
 		const i = await os.apiWithDialog('i/update', {
 			bannerId: driveFile.id,
-		}, undefined, {
-			'e148b34c-9f33-4300-93e0-7817008fb366': {
-				title: i18n.ts.cannotSelectSensitiveMedia,
-				text: i18n.ts.cannotSelectSensitiveMediaDescription,
-			},
 		}).catch(() => null); // エラーダイアログは apiWithDialog 側で表示済み
 		if (i == null) return;
 		updateCurrentAccount({
@@ -401,7 +396,7 @@ function changeBanner(ev: PointerEvent) {
 		text: i18n.ts.fromDrive,
 		icon: 'ti ti-cloud',
 		action: () => {
-			chooseDriveFile({ multiple: false, excludeSensitive: true }).then(files => {
+			chooseDriveFile({ multiple: false }).then(files => {
 				done(files[0]);
 			});
 		},

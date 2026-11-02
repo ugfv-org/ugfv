@@ -10,7 +10,7 @@ fork 固有差分を追加した場合は、必ず `AGENTS.md` にその差分�
 
 ### バージョン表記
 
-- root `package.json` の version は upstream version に `-ug4v` suffix を付けて維持する。
+- root `package.json` の version は upstream version に `-ug4v` suffix を付けて維持する。同一 upstream 版の追加リリースは `-ug4v-2` のように採番する。
 
 ### ActivityPub 配信挙動
 
@@ -20,6 +20,11 @@ fork 固有差分を追加した場合は、必ず `AGENTS.md` にその差分�
 ### 未ログイン UI の年齢確認
 
 - `packages/frontend/src/ui/_common_/common.vue` は、未ログイン時にページにかかわらず 18 歳以上確認 overlay を表示し、確認前はページ内容を操作できないようにする。
+
+### アイコン・バナーのセンシティブ画像
+
+- `packages/backend/src/server/api/endpoints/i/update.ts` はセンシティブ画像もアイコン・バナーに設定できる。所有者・画像形式・ロール権限の検証は維持する。
+- 設定画面のアイコン・バナーと初期設定のアイコンは、`packages/frontend/src/utility/confirm-profile-image.ts` を通し、センシティブ画像の場合に「外部に不意に配信される可能性のある画像のため、センシティブ要素を含まない画像を設定してください」と確認する。キャンセル時は変更を保存しない。API を直接利用するクライアントの確認表示は各クライアント側で行う。
 
 ### Docker image 公開
 
